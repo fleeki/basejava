@@ -59,8 +59,9 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        if (size == 0)
+        if (size == 0) {
             System.out.println("Base resume is empty!");
+        }
         return Arrays.copyOf(storage, size);
     }
 
