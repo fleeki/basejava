@@ -5,17 +5,17 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
-    int index = -1;
     int size = 0;
 
     void clear() {
-        Arrays.fill(storage, null);
+        for (int i = 0; i < size; i++) {
+            storage[i] = null;
+        }
         size = 0;
-        index = -1;
     }
 
     void save(Resume r) {
-        if (index + 1 == storage.length) {
+        if (size == storage.length) {
             System.out.println("Base resume is full!");
             return;
         }
@@ -26,7 +26,7 @@ public class ArrayStorage {
                 return;
             }
         }
-        storage[++index] = r;
+        storage[size] = r;
         size++;
     }
 
@@ -44,10 +44,10 @@ public class ArrayStorage {
         for (int i = 0; i < size; i++) {
             if (uuid.equals(storage[i].uuid)) {
                 int numMoved = size - i - 1;
-                if (numMoved > 0)
-                    System.arraycopy(storage, i+1, storage, i, numMoved);
+                if (numMoved > 0) {
+                    System.arraycopy(storage, i + 1, storage, i, numMoved);
+                }
                 storage[--size] = null;
-                index--;
                 return;
             }
         }
