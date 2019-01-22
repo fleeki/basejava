@@ -1,3 +1,5 @@
+package com.urise.webapp;
+
 import com.urise.webapp.model.Resume;
 import com.urise.webapp.storage.ArrayStorage;
 
@@ -43,7 +45,7 @@ public class MainArray {
                 case "update":
                     resume = new Resume();
                     resume.setUuid(uuid);
-                    ARRAY_STORAGE.update(uuid, resume);
+                    ARRAY_STORAGE.update(resume);
                     printAll();
                     break;
                 case "delete":
