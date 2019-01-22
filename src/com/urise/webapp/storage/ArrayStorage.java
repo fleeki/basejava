@@ -9,7 +9,6 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
     private int size = 0;
-    private int index;
     private Resume[] storage = new Resume[10_000];
 
     public void clear() {
@@ -18,9 +17,10 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
+        int index = searchUuid(r.getUuid());
         if (size == storage.length) {
             System.out.println("Base resume is full!");
-        } else if (searchUuid(r.getUuid())) {
+        } else if (index != -1) {
             System.out.println("Resume " + r.getUuid() + " is already exists");
         } else {
             storage[size] = r;
@@ -29,7 +29,8 @@ public class ArrayStorage {
     }
 
     public void update(Resume r) {
-        if (searchUuid(r.getUuid())) {
+        int index = searchUuid(r.getUuid());
+        if (index != -1) {
             storage[index] = r;
         } else {
             System.out.println("Resume " + r.getUuid() + " is not found!");
@@ -37,7 +38,8 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        if (searchUuid(uuid)) {
+        int index = searchUuid(uuid);
+        if (index != -1) {
             return storage[index];
         } else {
             System.out.println("Resume " + uuid + " is not found!");
@@ -46,7 +48,8 @@ public class ArrayStorage {
     }
 
     public void delete(String uuid) {
-        if (searchUuid(uuid)) {
+        int index = searchUuid(uuid);
+        if (index != -1) {
             storage[index] = storage[size - 1];
             storage[size - 1] = null;
             size--;
@@ -66,13 +69,12 @@ public class ArrayStorage {
         return size;
     }
 
-    private boolean searchUuid(String uuid) {
+    private int searchUuid(String uuid) {
         for (int i = 0; i < size; i++) {
             if (uuid.equals(storage[i].getUuid())) {
-                index = i;
-                return true;
+                return i;
             }
         }
-        return false;
+        return -1;
     }
 }
