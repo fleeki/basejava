@@ -8,47 +8,58 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import static com.urise.webapp.storage.AbstractArrayStorage.STORAGE_LIMIT;
+
 public abstract class AbstractArrayStorageTest {
+    private static final String DUMMY_UUID = "dummy";
+    private static final Resume DUMMY_RESUME = new Resume(DUMMY_UUID);
+    private static final Resume RESUME_1 = new Resume("uuid1");
+    private static final Resume RESUME_2 = new Resume("uuid2");
+    private static final Resume RESUME_3 = new Resume("uuid3");
     private Storage storage;
 
-    private static final String UUID_1 = "uuid1";
-    private static final String UUID_2 = "uuid2";
-    private static final String UUID_3 = "uuid3";
-
-    public AbstractArrayStorageTest(Storage storage) {
+    protected AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         storage.clear();
-        storage.save(new Resume(UUID_1));
-        storage.save(new Resume(UUID_2));
-        storage.save(new Resume(UUID_3));
+        storage.save(RESUME_1);
+        storage.save(RESUME_2);
+        storage.save(RESUME_3);
     }
 
     @Test
     public void clear() {
         storage.clear();
-        int actual = storage.size();
-        Assert.assertEquals(0, actual);
+        Assert.assertEquals(0, storage.size());
     }
 
-    @Test (expected = StorageException.class)
+    @Test
     public void save() {
+        Resume resume = new Resume("uuid4");
+        storage.save(resume);
+        Assert.assertEquals(4, storage.size());
+        if (resume != storage.get("uuid4")) {
+            Assert.fail("Expected resume not equals actual resume");
+        }
+    }
+
+    @Test(expected = StorageException.class)
+    public void saveOverflow() {
         int size = storage.size();
         try {
-            for (int i = size; i < 10_000; i++) {
+            for (int i = size; i < STORAGE_LIMIT; i++) {
                 storage.save(new Resume());
             }
         } catch (StorageException e) {
-            Assert.fail();
+            Assert.fail("Overflow happened before limit");
         }
-
         storage.save(new Resume());
     }
 
-    @Test (expected = ExistStorageException.class)
+    @Test(expected = ExistStorageException.class)
     public void saveExist() {
         storage.save(new Resume("uuid3"));
     }
@@ -57,11 +68,14 @@ public abstract class AbstractArrayStorageTest {
     public void update() {
         Resume resume = new Resume("uuid2");
         storage.update(resume);
+        if (resume != storage.get("uuid2")) {
+            Assert.fail("Expected resume not equals actual resume");
+        }
     }
 
-    @Test (expected = NotExistStorageException.class)
+    @Test(expected = NotExistStorageException.class)
     public void updateNotExist() {
-        storage.update(new Resume("dummy"));
+        storage.update(DUMMY_RESUME);
     }
 
     @Test
@@ -71,21 +85,21 @@ public abstract class AbstractArrayStorageTest {
         Assert.assertEquals(expected, actual);
     }
 
-    @Test (expected = NotExistStorageException.class)
+    @Test(expected = NotExistStorageException.class)
     public void getNotExist() {
-        storage.get("dummy");
+        storage.get(DUMMY_UUID);
     }
 
-    @Test
+    @Test(expected = NotExistStorageException.class)
     public void delete() {
         storage.delete("uuid2");
-        int actual = storage.size();
-        Assert.assertEquals(2, actual);
+        Assert.assertEquals(2, storage.size());
+        storage.get("uuid2");
     }
 
-    @Test (expected = NotExistStorageException.class)
+    @Test(expected = NotExistStorageException.class)
     public void deleteNotExist() {
-        storage.delete("dummy");
+        storage.delete(DUMMY_UUID);
     }
 
     @Test
@@ -94,6 +108,7 @@ public abstract class AbstractArrayStorageTest {
                 new Resume("uuid3")};
         Resume[] actual = storage.getAll();
         Assert.assertArrayEquals(expected, actual);
+        Assert.assertEquals(3, actual.length);
     }
 
     @Test
