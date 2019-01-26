@@ -3,6 +3,8 @@ package com.urise.webapp;
 import com.urise.webapp.model.Resume;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class MainReflection {
     public static void main(String[] args) throws IllegalAccessException {
@@ -13,5 +15,13 @@ public class MainReflection {
         System.out.println(field.get(resume));
         field.set(resume, "new_uuid");
         System.out.println(resume);
+        System.out.println("==========================");
+
+        try {
+            Method method = resume.getClass().getMethod("toString");
+            System.out.println(method.invoke(resume));
+        } catch (NoSuchMethodException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 }

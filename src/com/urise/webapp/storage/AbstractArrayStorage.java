@@ -10,7 +10,7 @@ import java.util.Arrays;
 public abstract class AbstractArrayStorage implements Storage{
     protected static final int STORAGE_LIMIT = 10_000;
     protected int size = 0;
-    protected Resume[] storage = new Resume[STORAGE_LIMIT];
+    public Resume[] storage = new Resume[STORAGE_LIMIT];
 
     @Override
     public void clear() {
@@ -25,9 +25,8 @@ public abstract class AbstractArrayStorage implements Storage{
             throw new StorageException("Base resume is full!", resume.getUuid());
         } else if (index >= 0) {
             throw new ExistStorageException(resume.getUuid());
-
         } else {
-            addResume(index, resume);
+            insertElement(index, resume);
             size++;
         }
     }
@@ -56,7 +55,7 @@ public abstract class AbstractArrayStorage implements Storage{
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index >= 0) {
-            deleteResume(index);
+            deleteElement(index);
             storage[size - 1] = null;
             size--;
         } else {
@@ -76,8 +75,8 @@ public abstract class AbstractArrayStorage implements Storage{
 
     protected abstract int getIndex(String uuid);
 
-    protected abstract void addResume(int index, Resume resume);
+    protected abstract void insertElement(int index, Resume resume);
 
-    protected abstract void deleteResume(int index);
+    protected abstract void deleteElement(int index);
 
 }
