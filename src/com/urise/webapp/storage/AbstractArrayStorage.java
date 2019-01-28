@@ -17,23 +17,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void save(Resume resume) {
-        if (size >= STORAGE_LIMIT) {
-            throw new StorageException("Base resume is full!", resume.getUuid());
-        } else {
-            super.save(resume);
-            size++;
-        }
-    }
-
-    @Override
-    public void delete(String uuid) {
-        super.delete(uuid);
-        storage[size - 1] = null;
-        size--;
-    }
-
-    @Override
     public Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }
@@ -41,6 +24,15 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     @Override
     public int size() {
         return size;
+    }
+
+    protected void insertElement(int index, Resume resume) {
+        if (size >= STORAGE_LIMIT) {
+            throw new StorageException("Base resume is full!", resume.getUuid());
+        } else {
+            insertAndMoveElements(index, resume);
+            size++;
+        }
     }
 
     @Override
@@ -52,4 +44,15 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected Resume getElement(int index) {
         return storage[index];
     }
+
+    @Override
+    protected void deleteElement(int index) {
+        deleteAndMoveElements(index);
+        storage[size - 1] = null;
+        size--;
+    }
+
+    protected abstract void insertAndMoveElements(int index, Resume resume);
+
+    protected abstract void deleteAndMoveElements(int index);
 }

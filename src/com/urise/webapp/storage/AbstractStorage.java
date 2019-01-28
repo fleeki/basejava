@@ -8,41 +8,43 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void save(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (index >= 0) {
-            throw new ExistStorageException(resume.getUuid());
-        } else {
-            insertElement(index, resume);
-        }
+        int index = getExistIndex(resume.getUuid());
+        insertElement(index, resume);
     }
 
     @Override
     public void update(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (index < 0) {
-            throw new NotExistStorageException(resume.getUuid());
-        } else {
-            updateElement(index, resume);
-        }
+        int index = getNotExistIndex(resume.getUuid());
+        updateElement(index, resume);
     }
 
     @Override
     public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            return getElement(index);
-        }
+        int index = getNotExistIndex(uuid);
+        return getElement(index);
     }
 
     @Override
     public void delete(String uuid) {
+        int index = getNotExistIndex(uuid);
+        deleteElement(index);
+    }
+
+    private int getExistIndex(String uuid) {
+        int index = getIndex(uuid);
+        if (index >= 0) {
+            throw new ExistStorageException(uuid);
+        } else {
+            return index;
+        }
+    }
+
+    private int getNotExistIndex(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
             throw new NotExistStorageException(uuid);
         } else {
-            deleteElement(index);
+            return index;
         }
     }
 
