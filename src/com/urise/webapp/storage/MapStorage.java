@@ -2,11 +2,11 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-public class ListStorage extends AbstractStorage {
-    public List<Resume> storage = new ArrayList<>();
+public class MapStorage extends AbstractStorage {
+    public Map<String, Resume> storage = new HashMap<>();
 
     @Override
     public void clear() {
@@ -15,7 +15,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        return storage.toArray(new Resume[0]);
+        return storage.values().toArray(new Resume[0]);
     }
 
     @Override
@@ -24,34 +24,37 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
+    protected boolean isExistKey(Object key) {
+        String value = (String) key;
+        return storage.containsKey(value);
+    }
+
+    @Override
     protected Object getKey(String uuid) {
-        Resume searchKey = new Resume(uuid);
-        return storage.indexOf(searchKey);
+        return uuid;
     }
 
     @Override
     protected void insertElement(Object key, Resume resume) {
-        storage.add(resume);
+        String value = (String) key;
+        storage.put(value, resume);
     }
 
     @Override
     protected void updateElement(Object key, Resume resume) {
-        storage.set((Integer) key, resume);
+        String value = (String) key;
+        storage.replace(value, resume);
     }
 
     @Override
     protected Resume getElement(Object key) {
-        return storage.get((Integer) key);
+        String value = (String) key;
+        return storage.get(value);
     }
 
     @Override
     protected void deleteElement(Object key) {
-        int value = (Integer) key;
+        String value = (String) key;
         storage.remove(value);
-    }
-
-    @Override
-    protected boolean isExistKey(Object key) {
-        return (Integer) key >= 0;
     }
 }

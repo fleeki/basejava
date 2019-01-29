@@ -8,53 +8,55 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void save(Resume resume) {
-        int index = getExistIndex(resume.getUuid());
-        insertElement(index, resume);
+        Object key = getExistKey(resume.getUuid());
+        insertElement(key, resume);
     }
 
     @Override
     public void update(Resume resume) {
-        int index = getNotExistIndex(resume.getUuid());
-        updateElement(index, resume);
+        Object key = getNotExistKey(resume.getUuid());
+        updateElement(key, resume);
     }
 
     @Override
     public Resume get(String uuid) {
-        int index = getNotExistIndex(uuid);
-        return getElement(index);
+        Object key = getNotExistKey(uuid);
+        return getElement(key);
     }
 
     @Override
     public void delete(String uuid) {
-        int index = getNotExistIndex(uuid);
-        deleteElement(index);
+        Object key = getNotExistKey(uuid);
+        deleteElement(key);
     }
 
-    private int getExistIndex(String uuid) {
-        int index = getIndex(uuid);
-        if (index >= 0) {
+    private Object getExistKey(String uuid) {
+        Object key = getKey(uuid);
+        if (isExistKey(key)) {
             throw new ExistStorageException(uuid);
         } else {
-            return index;
+            return key;
         }
     }
 
-    private int getNotExistIndex(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
+    private Object getNotExistKey(String uuid) {
+        Object key = getKey(uuid);
+        if (!isExistKey(key)) {
             throw new NotExistStorageException(uuid);
         } else {
-            return index;
+            return key;
         }
     }
 
-    protected abstract int getIndex(String uuid);
+    protected abstract boolean isExistKey(Object key);
 
-    protected abstract void insertElement(int index, Resume resume);
+    protected abstract Object getKey(String uuid);
 
-    protected abstract void updateElement(int index, Resume resume);
+    protected abstract void insertElement(Object key, Resume resume);
 
-    protected abstract Resume getElement(int index);
+    protected abstract void updateElement(Object key, Resume resume);
 
-    protected abstract void deleteElement(int index);
+    protected abstract Resume getElement(Object key);
+
+    protected abstract void deleteElement(Object key);
 }
