@@ -8,7 +8,6 @@ import org.junit.Test;
 import static com.urise.webapp.storage.AbstractArrayStorage.STORAGE_LIMIT;
 
 public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
-    private Storage storage;
 
     public AbstractArrayStorageTest(Storage storage) {
         super(storage);

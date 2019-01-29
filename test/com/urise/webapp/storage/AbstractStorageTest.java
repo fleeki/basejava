@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class AbstractStorageTest {
+public abstract class AbstractStorageTest {
     private static final String DUMMY_UUID = "dummy";
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
@@ -18,7 +18,7 @@ public class AbstractStorageTest {
     private static final Resume RESUME_2 = new Resume(UUID_2);
     private static final Resume RESUME_3 = new Resume(UUID_3);
     private static final Resume RESUME_4 = new Resume(UUID_4);
-    private Storage storage;
+    protected Storage storage;
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;

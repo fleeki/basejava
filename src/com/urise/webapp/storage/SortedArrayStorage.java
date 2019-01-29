@@ -13,17 +13,17 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void insertAndMoveElements(Object key, Resume resume) {
-        int position = -(Integer) key - 1;
+    protected void insertAndMoveElements(int key, Resume resume) {
+        int position = -key - 1;
         System.arraycopy(storage, position, storage, position + 1, size - position);
         storage[position] = resume;
     }
 
     @Override
-    protected void deleteAndMoveElements(Object key) {
-        int numMoved = size - (Integer) key - 1;
+    protected void deleteAndMoveElements(int key) {
+        int numMoved = size - key - 1;
         if (numMoved > 0) {
-            System.arraycopy(storage, (Integer) key + 1, storage, (Integer) key, numMoved);
+            System.arraycopy(storage, key + 1, storage, key, numMoved);
         }
     }
 }
