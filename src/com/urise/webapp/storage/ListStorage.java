@@ -50,8 +50,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected void deleteElement(Object key) {
-        int value = (Integer) key;
-        storage.remove(value);
+        storage.remove(((Integer) key).intValue());
     }
 
     @Override
