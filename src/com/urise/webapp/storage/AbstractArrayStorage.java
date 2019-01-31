@@ -28,7 +28,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
     protected void insertElement(Object key, Resume resume) {
-        if (size >= STORAGE_LIMIT) {
+        if (size == STORAGE_LIMIT) {
             throw new StorageException("Base resume is full!", resume.getUuid());
         } else {
             insertAndMoveElements((Integer) key, resume);
@@ -38,12 +38,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
     public void updateElement(Object key, Resume resume) {
-        storage[(Integer)key] = resume;
+        storage[(Integer) key] = resume;
     }
 
     @Override
     protected Resume getElement(Object key) {
-        return storage[(Integer)key];
+        return storage[(Integer) key];
     }
 
     @Override
@@ -55,7 +55,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
     protected boolean isExistKey(Object key) {
-        return (Integer)key >= 0;
+        return (Integer) key >= 0;
     }
 
     protected abstract void insertAndMoveElements(int key, Resume resume);
