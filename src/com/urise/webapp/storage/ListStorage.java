@@ -7,6 +7,7 @@ import java.util.List;
 
 public class ListStorage extends AbstractStorage {
     public List<Resume> storage = new ArrayList<>();
+    public int i;
 
     @Override
     public void clear() {
@@ -24,6 +25,11 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
+    public List<Resume> copyAllElements() {
+        return new ArrayList<>(storage);
+    }
+
+    @Override
     protected Object getKey(String uuid) {
         for (int i = 0; i < storage.size(); i++) {
             if (uuid.equals(storage.get(i).getUuid())) {
@@ -31,6 +37,11 @@ public class ListStorage extends AbstractStorage {
             }
         }
         return -1;
+    }
+
+    @Override
+    protected boolean isExistKey(Object key) {
+        return (Integer) key >= 0;
     }
 
     @Override
@@ -51,10 +62,5 @@ public class ListStorage extends AbstractStorage {
     @Override
     protected void deleteElement(Object key) {
         storage.remove(((Integer) key).intValue());
-    }
-
-    @Override
-    protected boolean isExistKey(Object key) {
-        return (Integer) key >= 0;
     }
 }

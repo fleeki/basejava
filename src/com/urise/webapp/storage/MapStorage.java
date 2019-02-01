@@ -2,7 +2,9 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MapStorage extends AbstractStorage {
@@ -24,9 +26,8 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExistKey(Object key) {
-        String value = (String) key;
-        return storage.containsKey(value);
+    public List<Resume> copyAllElements() {
+        return new ArrayList<>(storage.values());
     }
 
     @Override
@@ -35,26 +36,27 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
+    protected boolean isExistKey(Object key) {
+        return storage.containsKey(String.valueOf(key));
+    }
+
+    @Override
     protected void insertElement(Object key, Resume resume) {
-        String value = (String) key;
-        storage.put(value, resume);
+        storage.put(String.valueOf(key), resume);
     }
 
     @Override
     protected void updateElement(Object key, Resume resume) {
-        String value = (String) key;
-        storage.replace(value, resume);
+        storage.replace(String.valueOf(key), resume);
     }
 
     @Override
     protected Resume getElement(Object key) {
-        String value = (String) key;
-        return storage.get(value);
+        return storage.get(String.valueOf(key));
     }
 
     @Override
     protected void deleteElement(Object key) {
-        String value = (String) key;
-        storage.remove(value);
+        storage.remove(String.valueOf(key));
     }
 }
