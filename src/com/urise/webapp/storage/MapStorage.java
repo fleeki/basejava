@@ -16,11 +16,6 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return storage.values().toArray(new Resume[0]);
-    }
-
-    @Override
     public int size() {
         return storage.size();
     }
@@ -31,32 +26,32 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object getKey(String uuid) {
+    protected Object getSearchKey(String uuid) {
         return uuid;
     }
 
     @Override
-    protected boolean isExistKey(Object key) {
-        return storage.containsKey(String.valueOf(key));
+    protected boolean isExistSearchKey(Object searchKey) {
+        return storage.containsKey(String.valueOf(searchKey));
     }
 
     @Override
-    protected void insertElement(Object key, Resume resume) {
-        storage.put(String.valueOf(key), resume);
+    protected void insertElement(Object searchKey, Resume resume) {
+        storage.put(String.valueOf(searchKey), resume);
     }
 
     @Override
-    protected void updateElement(Object key, Resume resume) {
-        storage.replace(String.valueOf(key), resume);
+    protected void updateElement(Object searchKey, Resume resume) {
+        storage.replace(String.valueOf(searchKey), resume);
     }
 
     @Override
-    protected Resume getElement(Object key) {
-        return storage.get(String.valueOf(key));
+    protected Resume getElement(Object searchKey) {
+        return storage.get(String.valueOf(searchKey));
     }
 
     @Override
-    protected void deleteElement(Object key) {
-        storage.remove(String.valueOf(key));
+    protected void deleteElement(Object searchKey) {
+        storage.remove(String.valueOf(searchKey));
     }
 }

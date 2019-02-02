@@ -7,16 +7,10 @@ import java.util.List;
 
 public class ListStorage extends AbstractStorage {
     public List<Resume> storage = new ArrayList<>();
-    public int i;
 
     @Override
     public void clear() {
         storage.clear();
-    }
-
-    @Override
-    public Resume[] getAll() {
-        return storage.toArray(new Resume[0]);
     }
 
     @Override
@@ -30,7 +24,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object getKey(String uuid) {
+    protected Object getSearchKey(String uuid) {
         for (int i = 0; i < storage.size(); i++) {
             if (uuid.equals(storage.get(i).getUuid())) {
                 return i;
@@ -40,27 +34,27 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExistKey(Object key) {
-        return (Integer) key >= 0;
+    protected boolean isExistSearchKey(Object searchKey) {
+        return (Integer) searchKey >= 0;
     }
 
     @Override
-    protected void insertElement(Object key, Resume resume) {
+    protected void insertElement(Object searchKey, Resume resume) {
         storage.add(resume);
     }
 
     @Override
-    protected void updateElement(Object key, Resume resume) {
-        storage.set((Integer) key, resume);
+    protected void updateElement(Object searchKey, Resume resume) {
+        storage.set((Integer) searchKey, resume);
     }
 
     @Override
-    protected Resume getElement(Object key) {
-        return storage.get((Integer) key);
+    protected Resume getElement(Object searchKey) {
+        return storage.get((Integer) searchKey);
     }
 
     @Override
-    protected void deleteElement(Object key) {
-        storage.remove(((Integer) key).intValue());
+    protected void deleteElement(Object searchKey) {
+        storage.remove(((Integer) searchKey).intValue());
     }
 }

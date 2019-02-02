@@ -18,11 +18,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return Arrays.copyOf(storage, size);
-    }
-
-    @Override
     public int size() {
         return size;
     }
@@ -33,38 +28,38 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExistKey(Object key) {
-        return (Integer) key >= 0;
+    protected boolean isExistSearchKey(Object searchKey) {
+        return (Integer) searchKey >= 0;
     }
 
     @Override
-    protected void insertElement(Object key, Resume resume) {
+    protected void insertElement(Object searchKey, Resume resume) {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("Base resume is full!", resume.getUuid());
         } else {
-            insertAndMoveElements((Integer) key, resume);
+            insertAndMoveElements((Integer) searchKey, resume);
             size++;
         }
     }
 
     @Override
-    public void updateElement(Object key, Resume resume) {
-        storage[(Integer) key] = resume;
+    public void updateElement(Object searchKey, Resume resume) {
+        storage[(Integer) searchKey] = resume;
     }
 
     @Override
-    protected Resume getElement(Object key) {
-        return storage[(Integer) key];
+    protected Resume getElement(Object searchKey) {
+        return storage[(Integer) searchKey];
     }
 
     @Override
-    protected void deleteElement(Object key) {
-        deleteAndMoveElements((Integer) key);
+    protected void deleteElement(Object searchKey) {
+        deleteAndMoveElements((Integer) searchKey);
         storage[size - 1] = null;
         size--;
     }
 
-    protected abstract void insertAndMoveElements(int key, Resume resume);
+    protected abstract void insertAndMoveElements(int searchKey, Resume resume);
 
-    protected abstract void deleteAndMoveElements(int key);
+    protected abstract void deleteAndMoveElements(int searchKey);
 }
