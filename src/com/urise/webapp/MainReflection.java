@@ -8,12 +8,12 @@ import java.lang.reflect.Method;
 
 public class MainReflection {
     public static void main(String[] args) throws IllegalAccessException {
-        Resume resume = new Resume("uuid1");
+        Resume resume = new Resume("Name");
         Field field = resume.getClass().getDeclaredFields()[0];
         field.setAccessible(true);
         System.out.println(field.getName());
         System.out.println(field.get(resume));
-        field.set(resume, "new_uuid");
+        field.set(resume, "new Name");
         System.out.println(resume);
         System.out.println("==========================");
 
