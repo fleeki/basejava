@@ -8,23 +8,23 @@ import java.util.Comparator;
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected Object getSearchKey(String uuid) {
+    protected Integer getSearchKey(String uuid) {
         Resume searchKey = new Resume(uuid, "dummy");
         return Arrays.binarySearch(storage, 0, size, searchKey, Comparator.comparing(Resume::getUuid));
     }
 
     @Override
-    protected void fillInsertedElement(int searchKey, Resume resume) {
-        int position = -searchKey - 1;
+    protected void fillInsertedElement(int index, Resume resume) {
+        int position = -index - 1;
         System.arraycopy(storage, position, storage, position + 1, size - position);
         storage[position] = resume;
     }
 
     @Override
-    protected void fillDeletedElement(int searchKey) {
-        int numMoved = size - searchKey - 1;
+    protected void fillDeletedElement(int index) {
+        int numMoved = size - index - 1;
         if (numMoved > 0) {
-            System.arraycopy(storage, searchKey + 1, storage, searchKey, numMoved);
+            System.arraycopy(storage, index + 1, storage, index, numMoved);
         }
     }
 }
