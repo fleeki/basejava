@@ -2,13 +2,13 @@ package com.urise.webapp.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class ListSection {
-    private String description;
+public class ListSection extends Section {
     private final List<String> list = new ArrayList<>();
 
     public ListSection(String description) {
-        this.description = description;
+        Objects.requireNonNull(description, "description must not be null");
         list.add(description);
     }
 
@@ -26,5 +26,20 @@ public class ListSection {
 
     public List<String> getAllDescription() {
         return list;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ListSection that = (ListSection) o;
+
+        return list.equals(that.list);
+    }
+
+    @Override
+    public int hashCode() {
+        return list.hashCode();
     }
 }
