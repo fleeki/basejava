@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ExperienceSection extends Section {
+public class ExperienceSection extends AbstractSection {
     private final List<Experience> experience = new ArrayList<>();
 
     public ExperienceSection(Experience exp) {

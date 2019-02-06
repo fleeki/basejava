@@ -7,7 +7,7 @@ public enum ContactType {
 
     private String title;
 
-    private ContactType(String title) {
+    ContactType(String title) {
         this.title = title;
     }
 

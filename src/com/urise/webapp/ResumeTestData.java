@@ -2,6 +2,7 @@ package com.urise.webapp;
 
 import com.urise.webapp.model.*;
 
+import java.util.Arrays;
 import java.util.Map;
 
 public class ResumeTestData {
@@ -17,20 +18,20 @@ public class ResumeTestData {
         resume.getSections().put(SectionType.PERSONAL, new TextSection("Аналитический склад ума, " +
                 "сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
 
-        resume.getSections().put(SectionType.ACHIEVEMENT, new ListSection("- С 2013 года: разработка " +
-                "проектов \"Разработка Web приложения\", \"Java Enterprise\", \"Многомодульный maven\"."));
+        resume.getSections().put(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList("- С 2013 года: разработка " +
+                "проектов \"Разработка Web приложения\", \"Java Enterprise\", \"Многомодульный maven\".")));
 
-        resume.getSections().put(SectionType.QUALIFICATIONS, new ListSection("- JEE AS: " +
-                "GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2."));
+        resume.getSections().put(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList("- JEE AS: " +
+                "GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2.")));
 
         Experience expWork1 = new Experience("Java Online Projects", "01/10/2013", "05/02/2019",
                 "Создание, организация и проведение Java онлайн проектов и стажировок.",
-                "Автор проекта","http://javaops.ru/");
+                "Автор проекта", "http://javaops.ru/");
         resume.getSections().put(SectionType.EXPERIENCE, new ExperienceSection(expWork1));
 
         Experience education1 = new Experience("Coursera", "01/03/2013", "01/05/2013",
                 "\"Functional Programming Principles in Scala\" by Martin Odersky.");
-                resume.getSections().put(SectionType.EDUCATION, new ExperienceSection(education1));
+        resume.getSections().put(SectionType.EDUCATION, new ExperienceSection(education1));
 
         printContact(ContactType.PHONE);
         printContact(ContactType.SKYPE);

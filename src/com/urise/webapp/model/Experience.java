@@ -81,6 +81,35 @@ public class Experience {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Experience that = (Experience) o;
+
+        if (organizationName != null ? !organizationName.equals(that.organizationName) : that.organizationName != null)
+            return false;
+        if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null) return false;
+        if (endDate != null ? !endDate.equals(that.endDate) : that.endDate != null) return false;
+        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (!post.equals(that.post)) return false;
+        if (!homepage.equals(that.homepage)) return false;
+        return formatter != null ? formatter.equals(that.formatter) : that.formatter == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = organizationName != null ? organizationName.hashCode() : 0;
+        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
+        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + post.hashCode();
+        result = 31 * result + homepage.hashCode();
+        result = 31 * result + (formatter != null ? formatter.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "Организация: " + organizationName +
                 "\nПериод: " + startDate.format(DateTimeFormatter.ofPattern("MM/yyyy")) +
