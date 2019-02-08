@@ -6,33 +6,10 @@ import java.util.Arrays;
 import java.util.Map;
 
 public class ResumeTestData {
-    private static final Resume resume = new Resume("Григорий Кислин");
+    private static final Resume resume = new Resume("some name");
 
     public static void main(String[] args) {
-        resume.getContacts().put(ContactType.PHONE, new ContactSection("+7(921) 855-0482"));
-        resume.getContacts().put(ContactType.SKYPE, new ContactSection("grigory.kislin"));
-        resume.getContacts().put(ContactType.EMAIL, new ContactSection("gkislin@yandex.ru"));
-
-        resume.getSections().put(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок и " +
-                "корпоративного обучения по Java Web и Enterprise технологиям."));
-        resume.getSections().put(SectionType.PERSONAL, new TextSection("Аналитический склад ума, " +
-                "сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
-
-        resume.getSections().put(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList("- С 2013 года: разработка " +
-                "проектов \"Разработка Web приложения\", \"Java Enterprise\", \"Многомодульный maven\".")));
-
-        resume.getSections().put(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList("- JEE AS: " +
-                "GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2.")));
-
-        Experience expWork1 = new Experience("Java Online Projects", "01/10/2013", "05/02/2019",
-                "Создание, организация и проведение Java онлайн проектов и стажировок.",
-                "Автор проекта", "http://javaops.ru/");
-        resume.getSections().put(SectionType.EXPERIENCE, new ExperienceSection(expWork1));
-
-        Experience education1 = new Experience("Coursera", "01/03/2013", "01/05/2013",
-                "\"Functional Programming Principles in Scala\" by Martin Odersky.");
-        resume.getSections().put(SectionType.EDUCATION, new ExperienceSection(education1));
-
+        fillResume(resume);
         printContact(ContactType.PHONE);
         printContact(ContactType.SKYPE);
         printAllContacts();
@@ -40,12 +17,52 @@ public class ResumeTestData {
         printTextSection(SectionType.PERSONAL);
         printListSection(SectionType.ACHIEVEMENT);
         printListSection(SectionType.QUALIFICATIONS);
-        printExperienceSection(SectionType.EXPERIENCE);
-        printExperienceSection(SectionType.EDUCATION);
+        printOrganizationSection(SectionType.EXPERIENCE);
+        printOrganizationSection(SectionType.EDUCATION);
+    }
+
+    public static void fillResume(Resume resume) {
+        resume.getContacts().put(ContactType.PHONE, "some phone number");
+        resume.getContacts().put(ContactType.SKYPE, "some skype");
+        resume.getContacts().put(ContactType.EMAIL, "some email");
+
+        resume.getSections().put(SectionType.OBJECTIVE, new TextSection("some content"));
+        resume.getSections().put(SectionType.PERSONAL, new TextSection("some content"));
+
+        resume.getSections().put(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList("item_1",
+                "item_2", "item_3")));
+        resume.getSections().put(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList("item_1",
+                "item_2", "item_3")));
+
+        Period javaopsPeriod = new Period("10/2013", "сейчас", "some title",
+                "javaops description");
+        Organization javaops = new Organization("Java Online Projects", "http://javaops.ru/",
+                javaopsPeriod);
+
+        Period wrikePeriod = new Period("10/2014", "1/2016", "some title",
+                "wrike description");
+        Organization wrike = new Organization("Wrike", "https://www.wrike.com",
+                wrikePeriod);
+
+        resume.getSections().put(SectionType.EXPERIENCE, new OrganizationSection(Arrays.asList(javaops, wrike)));
+
+        Period courseraPeriod = new Period("3/2013", "5/2013", "some title",
+                null);
+        Organization coursera = new Organization("Coursera", "https://www.coursera.org",
+                courseraPeriod);
+
+        Period itmoPeriod_1 = new Period("9/1993", "7/1996", "some title",
+                null);
+        Period itmoPeriod_2 = new Period("9/1987", "7/1993", "some title",
+                null);
+        Organization itmo = new Organization("Университет ИТМО", "http://www.ifmo.ru/",
+                itmoPeriod_1, itmoPeriod_2);
+
+        resume.getSections().put(SectionType.EDUCATION, new OrganizationSection(Arrays.asList(coursera, itmo)));
     }
 
     private static void printContact(ContactType cntType) {
-        System.out.println(resume.getContact(cntType));
+        System.out.println(cntType + " " + resume.getContact(cntType));
     }
 
     private static void printAllContacts() {
@@ -62,16 +79,16 @@ public class ResumeTestData {
     private static void printListSection(SectionType type) {
         ListSection listSection = (ListSection) resume.getSection(type);
         System.out.println("\n" + type);
-        for (String str : listSection.getAllDescription()) {
-            System.out.println(str);
+        for (String item : listSection.getItems()) {
+            System.out.println(item);
         }
     }
 
-    private static void printExperienceSection(SectionType type) {
-        ExperienceSection expSection = (ExperienceSection) resume.getSection(type);
+    private static void printOrganizationSection(SectionType type) {
+        OrganizationSection organizationSection = (OrganizationSection) resume.getSection(type);
         System.out.println("\n" + type);
-        for (Experience expWork : expSection.getAllExperience()) {
-            System.out.println(expWork);
+        for (Organization organization : organizationSection.getOrganizations()) {
+            System.out.println(organization);
         }
     }
 }

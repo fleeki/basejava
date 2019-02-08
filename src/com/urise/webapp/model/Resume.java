@@ -8,7 +8,7 @@ import java.util.UUID;
 public class Resume {
     private final String uuid;
     private String fullName;
-    private final Map<ContactType, ContactSection> contacts = new EnumMap<>(ContactType.class);
+    private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
     private final Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
@@ -30,7 +30,7 @@ public class Resume {
         return fullName;
     }
 
-    public Map<ContactType, ContactSection> getContacts() {
+    public Map<ContactType, String> getContacts() {
         return contacts;
     }
 
@@ -38,7 +38,7 @@ public class Resume {
         return sections;
     }
 
-    public ContactSection getContact(ContactType type) {
+    public String getContact(ContactType type) {
         return contacts.get(type);
     }
 

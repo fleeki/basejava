@@ -15,36 +15,36 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     @Override
     public void save(Resume resume) {
-        LOG.info ("Save " + resume);
+        LOG.info("Save " + resume);
         SK searchKey = getNotExistSearchKey(resume.getUuid());
-        insertElement(searchKey, resume);
+        doSave(searchKey, resume);
     }
 
     @Override
     public void update(Resume resume) {
-        LOG.info ("Update " + resume);
+        LOG.info("Update " + resume);
         SK searchKey = getExistSearchKey(resume.getUuid());
-        updateElement(searchKey, resume);
+        doUpdate(searchKey, resume);
     }
 
     @Override
     public Resume get(String uuid) {
-        LOG.info ("Get " + uuid);
+        LOG.info("Get " + uuid);
         SK searchKey = getExistSearchKey(uuid);
-        return getElement(searchKey);
+        return doGet(searchKey);
     }
 
     @Override
     public void delete(String uuid) {
-        LOG.info ("Delete " + uuid);
+        LOG.info("Delete " + uuid);
         SK searchKey = getExistSearchKey(uuid);
-        deleteElement(searchKey);
+        doDelete(searchKey);
     }
 
     @Override
     public List<Resume> getAllSorted() {
-        LOG.info ("GetAllSorted");
-        List<Resume> sortedStorage = copyAllElements();
+        LOG.info("GetAllSorted");
+        List<Resume> sortedStorage = doCopyAll();
         sortedStorage.sort(COMPARATOR);
         return sortedStorage;
     }
@@ -69,17 +69,17 @@ public abstract class AbstractStorage<SK> implements Storage {
         }
     }
 
-    protected abstract List<Resume> copyAllElements();
+    protected abstract List<Resume> doCopyAll();
 
     protected abstract SK getSearchKey(String uuid);
 
     protected abstract boolean isExistSearchKey(SK searchKey);
 
-    protected abstract void insertElement(SK searchKey, Resume resume);
+    protected abstract void doSave(SK searchKey, Resume resume);
 
-    protected abstract void updateElement(SK searchKey, Resume resume);
+    protected abstract void doUpdate(SK searchKey, Resume resume);
 
-    protected abstract Resume getElement(SK searchKey);
+    protected abstract Resume doGet(SK searchKey);
 
-    protected abstract void deleteElement(SK searchKey);
+    protected abstract void doDelete(SK searchKey);
 }

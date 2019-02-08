@@ -1,5 +1,6 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.ResumeTestData;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
@@ -32,6 +33,9 @@ public abstract class AbstractStorageTest {
 
     @Before
     public void setUp() {
+        ResumeTestData.fillResume(RESUME_1);
+        ResumeTestData.fillResume(RESUME_2);
+        ResumeTestData.fillResume(RESUME_3);
         storage.clear();
         storage.save(RESUME_1);
         storage.save(RESUME_2);

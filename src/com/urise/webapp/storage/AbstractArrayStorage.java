@@ -23,7 +23,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected List<Resume> copyAllElements() {
+    protected List<Resume> doCopyAll() {
         return Arrays.asList(Arrays.copyOf(storage, size));
     }
 
@@ -33,7 +33,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected void insertElement(Integer index, Resume resume) {
+    protected void doSave(Integer index, Resume resume) {
         if (size == STORAGE_LIMIT) {
             LOG.warning("Base resume is full!");
             throw new StorageException("Base resume is full!", resume.getUuid());
@@ -44,17 +44,17 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    public void updateElement(Integer index, Resume resume) {
+    public void doUpdate(Integer index, Resume resume) {
         storage[index] = resume;
     }
 
     @Override
-    protected Resume getElement(Integer index) {
+    protected Resume doGet(Integer index) {
         return storage[index];
     }
 
     @Override
-    protected void deleteElement(Integer index) {
+    protected void doDelete(Integer index) {
         fillDeletedElement(index);
         storage[size - 1] = null;
         size--;
