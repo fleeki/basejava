@@ -9,7 +9,7 @@ public class ResumeTestData {
     private static Resume resume;
 
     public static void main(String[] args) {
-        resume = fillResume(new Resume("some name"));
+        fillResume("uuid", "some name");
         printContact(ContactType.PHONE);
         printContact(ContactType.SKYPE);
         printAllContacts();
@@ -21,44 +21,45 @@ public class ResumeTestData {
         printOrganizationSection(SectionType.EDUCATION);
     }
 
-    public static Resume fillResume(Resume resume) {
-        resume.getContacts().put(ContactType.PHONE, "some phone number");
-        resume.getContacts().put(ContactType.SKYPE, "some skype");
-        resume.getContacts().put(ContactType.EMAIL, "some email");
+    public static Resume fillResume(String uuid, String fullName) {
+        resume = new Resume(uuid, fullName);
+        resume.addContact(ContactType.PHONE, "some phone number");
+        resume.addContact(ContactType.SKYPE, "some skype");
+        resume.addContact(ContactType.EMAIL, "some email");
 
-        resume.getSections().put(SectionType.OBJECTIVE, new TextSection("some content"));
-        resume.getSections().put(SectionType.PERSONAL, new TextSection("some content"));
+        resume.addSection(SectionType.OBJECTIVE, new TextSection("some content"));
+        resume.addSection(SectionType.PERSONAL, new TextSection("some content"));
 
-        resume.getSections().put(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList("item_1",
+        resume.addSection(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList("item_1",
                 "item_2", "item_3")));
-        resume.getSections().put(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList("item_1",
+        resume.addSection(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList("item_1",
                 "item_2", "item_3")));
 
-        Period javaopsPeriod = new Period("10/2013", "сейчас", "some title",
+        Organization.Position javaopsPosition = new Organization.Position("10/2013", "сейчас", "some title",
                 "javaops description");
         Organization javaops = new Organization("Java Online Projects", "http://javaops.ru/",
-                javaopsPeriod);
+                javaopsPosition);
 
-        Period wrikePeriod = new Period("10/2014", "1/2016", "some title",
+        Organization.Position wrikePosition = new Organization.Position("10/2014", "1/2016", "some title",
                 "wrike description");
         Organization wrike = new Organization("Wrike", "https://www.wrike.com",
-                wrikePeriod);
+                wrikePosition);
 
-        resume.getSections().put(SectionType.EXPERIENCE, new OrganizationSection(Arrays.asList(javaops, wrike)));
+        resume.addSection(SectionType.EXPERIENCE, new OrganizationSection(Arrays.asList(javaops, wrike)));
 
-        Period courseraPeriod = new Period("3/2013", "5/2013", "some title",
+        Organization.Position courseraPosition = new Organization.Position("3/2013", "5/2013", "some title",
                 null);
         Organization coursera = new Organization("Coursera", "https://www.coursera.org",
-                courseraPeriod);
+                courseraPosition);
 
-        Period itmoPeriod_1 = new Period("9/1993", "7/1996", "some title",
+        Organization.Position itmoPosition_1 = new Organization.Position("9/1993", "7/1996", "some title",
                 null);
-        Period itmoPeriod_2 = new Period("9/1987", "7/1993", "some title",
+        Organization.Position itmoPosition_2 = new Organization.Position("9/1987", "7/1993", "some title",
                 null);
         Organization itmo = new Organization("Университет ИТМО", "http://www.ifmo.ru/",
-                itmoPeriod_1, itmoPeriod_2);
+                itmoPosition_1, itmoPosition_2);
 
-        resume.getSections().put(SectionType.EDUCATION, new OrganizationSection(Arrays.asList(coursera, itmo)));
+        resume.addSection(SectionType.EDUCATION, new OrganizationSection(Arrays.asList(coursera, itmo)));
 
         return resume;
     }
@@ -69,13 +70,14 @@ public class ResumeTestData {
 
     private static void printAllContacts() {
         System.out.println("\nСписок всех контактов:");
-        for (Map.Entry contact : resume.getContacts().entrySet()) {
+        for (Map.Entry contact : resume.getAllContacts().entrySet()) {
             System.out.println(contact.getKey() + " " + contact.getValue());
         }
     }
 
     private static void printTextSection(SectionType type) {
-        System.out.println("\n" + type + " " + resume.getSections().get(type));
+        TextSection textSection = (TextSection) resume.getSection(type);
+        System.out.println("\n" + type + " " + textSection.getContent());
     }
 
     private static void printListSection(SectionType type) {

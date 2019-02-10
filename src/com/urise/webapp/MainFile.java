@@ -30,9 +30,10 @@ public class MainFile {
         if (list != null) {
             for (File file : list) {
                 if (file.isDirectory()) {
+                    System.out.println("Directory: " + file.getName());
                     printAllFileNames(file);
                 } else {
-                    System.out.println(file.getName());
+                    System.out.println("File: " + file.getName());
                 }
             }
         }
