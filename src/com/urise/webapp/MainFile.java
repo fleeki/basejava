@@ -27,11 +27,13 @@ public class MainFile {
 
     private static void printAllFileNames(File dir) {
         File[] list = dir.listFiles();
-        for (File file : list) {
-            if (file.isDirectory()) {
-                printAllFileNames(file);
-            } else {
-                System.out.println(file.getName());
+        if (list != null) {
+            for (File file : list) {
+                if (file.isDirectory()) {
+                    printAllFileNames(file);
+                } else {
+                    System.out.println(file.getName());
+                }
             }
         }
     }

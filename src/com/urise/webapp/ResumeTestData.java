@@ -6,10 +6,10 @@ import java.util.Arrays;
 import java.util.Map;
 
 public class ResumeTestData {
-    private static final Resume resume = new Resume("some name");
+    private static Resume resume;
 
     public static void main(String[] args) {
-        fillResume(resume);
+        resume = fillResume(new Resume("some name"));
         printContact(ContactType.PHONE);
         printContact(ContactType.SKYPE);
         printAllContacts();
@@ -21,7 +21,7 @@ public class ResumeTestData {
         printOrganizationSection(SectionType.EDUCATION);
     }
 
-    public static void fillResume(Resume resume) {
+    public static Resume fillResume(Resume resume) {
         resume.getContacts().put(ContactType.PHONE, "some phone number");
         resume.getContacts().put(ContactType.SKYPE, "some skype");
         resume.getContacts().put(ContactType.EMAIL, "some email");
@@ -59,6 +59,8 @@ public class ResumeTestData {
                 itmoPeriod_1, itmoPeriod_2);
 
         resume.getSections().put(SectionType.EDUCATION, new OrganizationSection(Arrays.asList(coursera, itmo)));
+
+        return resume;
     }
 
     private static void printContact(ContactType cntType) {
