@@ -6,6 +6,7 @@ import java.io.IOException;
 
 public class MainFile {
     public static void main(String[] args) {
+        /*
         String filePath = ".\\.gitignore";
         File file = new File(filePath);
         try {
@@ -19,9 +20,10 @@ public class MainFile {
         } catch (IOException e) {
             throw new RuntimeException("Error", e);
         }
+        */
 
         System.out.println("==========HW8==========");
-        File dir = new File(".\\src");
+        File dir = new File("D:\\Java");
         printAllFileNames(dir);
     }
 

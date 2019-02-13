@@ -1,14 +1,16 @@
 package com.urise.webapp.model;
 
-import com.urise.webapp.util.DateUtil;
-
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class Organization {
+import static com.urise.webapp.util.DateUtil.*;
+
+public class Organization implements Serializable {
+    private static final long serialVersionUID = 1L;
     private final Link homePage;
     private final List<Position> positions;
 
@@ -53,20 +55,31 @@ public class Organization {
         return homePage + "\n" + positions;
     }
 
-    public static class Position {
+    public static class Position implements Serializable {
         private final LocalDate startDate;
         private final LocalDate endDate;
         private final String title;
         private final String description;
-        private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yyyy");
 
         public Position(String startDate, String endDate, String title, String description) {
+            this(dateFormat(startDate), dateFormat(endDate), title, description);
+        }
+
+        public Position(int startYear, Month startMonth, String title, String description) {
+            this(of(startYear, startMonth), NOW, title, description);
+        }
+
+        public Position(int startYear, Month startMonth, int endYear, Month endMonth, String title, String description) {
+            this(of(startYear, startMonth), of(endYear, endMonth), title, description);
+        }
+
+        public Position(LocalDate startDate, LocalDate endDate, String title, String description) {
             Objects.requireNonNull(startDate, "startDate must not be null");
             Objects.requireNonNull(endDate, "endDate must not be null");
             Objects.requireNonNull(title, "title must not be null");
 
-            this.startDate = DateUtil.dateFormat(startDate);
-            this.endDate = DateUtil.dateFormat(endDate);
+            this.startDate = startDate;
+            this.endDate = endDate;
             this.title = title;
             this.description = description;
         }
@@ -111,7 +124,8 @@ public class Organization {
 
         @Override
         public String toString() {
-            return "Период: " + startDate.format(formatter) + " - " + endDate.format(formatter) +
+            return "Период: " + startDate.getMonthValue() + "/" + startDate.getYear() +
+                    " - " + endDate.getMonthValue() + "/" + endDate.getYear() +
                     "\nЗаголовок: " + title +
                     "\nОписание: " + description;
         }

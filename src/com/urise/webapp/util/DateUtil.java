@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.Month;
 
 public class DateUtil {
+    public static final LocalDate NOW = LocalDate.of(3000, 1, 1);
 
     public static LocalDate of(int year, Month month) {
         return LocalDate.of(year, month, 1);
@@ -11,7 +12,7 @@ public class DateUtil {
 
     public static LocalDate dateFormat(String date) {
         if ("сейчас".equals(date)) {
-            return LocalDate.now();
+            return NOW;
         }
 
         String[] params = date.trim().toLowerCase().split("/");

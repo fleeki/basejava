@@ -3,8 +3,7 @@ package com.urise.webapp.storage;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -33,8 +32,8 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
                 doDelete(file);
             }
         } else {
-            LOG.warning("Directory read error");
-            throw new StorageException("Directory read error", null);
+            LOG.warning("Directory clear error");
+            throw new StorageException("Directory clear error", null);
         }
     }
 
@@ -44,8 +43,8 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         if (list != null) {
             return list.length;
         } else {
-            LOG.warning("Directory read error");
-            throw new StorageException("Directory read error", null);
+            LOG.warning("Directory size error");
+            throw new StorageException("Directory size error", null);
         }
     }
 
@@ -78,17 +77,17 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     protected void doSave(File file, Resume resume) {
         try {
             file.createNewFile();
-            doWrite(file, resume);
         } catch (IOException e) {
             LOG.warning("Couldn't create file " + file.getName());
             throw new StorageException("Couldn't create file " + file.getAbsolutePath(), file.getName(), e);
         }
+        doUpdate(file, resume);
     }
 
     @Override
     protected void doUpdate(File file, Resume resume) {
         try {
-            doWrite(file, resume);
+            doWrite(new BufferedOutputStream(new FileOutputStream(file)), resume);
         } catch (IOException e) {
             LOG.warning("File write error " + file.getName());
             throw new StorageException("File write error", file.getName(), e);
@@ -98,7 +97,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected Resume doGet(File file) {
         try {
-            return doRead(file);
+            return doRead(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
             LOG.warning("File read error " + file.getName());
             throw new StorageException("File read error", file.getName(), e);
@@ -113,7 +112,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         }
     }
 
-    protected abstract void doWrite(File file, Resume resume) throws IOException;
+    protected abstract void doWrite(OutputStream os, Resume resume) throws IOException;
 
-    protected abstract Resume doRead(File file) throws IOException;
+    protected abstract Resume doRead(InputStream is) throws IOException;
 }
