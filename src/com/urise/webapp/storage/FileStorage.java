@@ -8,10 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class AbstractFileStorage extends AbstractStorage<File> {
+public class FileStorage extends AbstractStorage<File> {
     private File directory;
+    private SerializationStrategy strategy;
 
-    protected AbstractFileStorage(File directory) {
+    protected FileStorage(File directory) {
         Objects.requireNonNull(directory, " directory must not be null");
         if (!directory.isDirectory()) {
             LOG.warning(directory + " is not directory");
@@ -112,7 +113,15 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         }
     }
 
-    protected abstract void doWrite(OutputStream os, Resume resume) throws IOException;
+    protected void setStrategy(SerializationStrategy strategy) {
+        this.strategy = strategy;
+    }
 
-    protected abstract Resume doRead(InputStream is) throws IOException;
+    protected void doWrite(OutputStream os, Resume resume) throws IOException {
+        strategy.doWrite(os, resume);
+    }
+
+    protected Resume doRead(InputStream is) throws IOException {
+        return strategy.doRead(is);
+    }
 }

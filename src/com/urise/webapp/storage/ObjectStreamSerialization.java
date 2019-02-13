@@ -5,21 +5,19 @@ import com.urise.webapp.model.Resume;
 
 import java.io.*;
 
-public class ObjectStreamPathStorage extends AbstractPathStorage {
+import static com.urise.webapp.storage.AbstractStorage.LOG;
 
-    public ObjectStreamPathStorage(String dir) {
-        super(dir);
-    }
+public class ObjectStreamSerialization implements SerializationStrategy {
 
     @Override
-    protected void doWrite(OutputStream os, Resume resume) throws IOException {
+    public void doWrite(OutputStream os, Resume resume) throws IOException {
         try (ObjectOutputStream oos = new ObjectOutputStream(os)) {
             oos.writeObject(resume);
         }
     }
 
     @Override
-    protected Resume doRead(InputStream is) throws IOException {
+    public Resume doRead(InputStream is) throws IOException {
         try (ObjectInputStream ois = new ObjectInputStream(is)) {
             return (Resume) ois.readObject();
         } catch (ClassNotFoundException e) {

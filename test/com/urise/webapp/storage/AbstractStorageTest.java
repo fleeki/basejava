@@ -32,6 +32,16 @@ public abstract class AbstractStorageTest {
         this.storage = storage;
     }
 
+    public AbstractStorageTest(FileStorage storage, SerializationStrategy strategy) {
+        this.storage = storage;
+        storage.setStrategy(strategy);
+    }
+
+    public AbstractStorageTest(PathStorage storage, SerializationStrategy strategy) {
+        this.storage = storage;
+        storage.setStrategy(strategy);
+    }
+
     @Before
     public void setUp() {
         storage.clear();

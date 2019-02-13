@@ -6,15 +6,19 @@ import com.urise.webapp.model.Resume;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.*;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class AbstractPathStorage extends AbstractStorage<Path> {
+public class PathStorage extends AbstractStorage<Path> {
     private Path directory;
+    private SerializationStrategy strategy;
 
-    protected AbstractPathStorage(String dir) {
+    protected PathStorage(String dir) {
         directory = Paths.get(dir);
         Objects.requireNonNull(directory, " directory must not be null");
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
@@ -35,12 +39,11 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     public int size() {
-        String[] list = directory.toFile().list();
-        if (list != null) {
-            return list.length;
-        } else {
+        try {
+            return (int) Files.list(directory).count();
+        } catch (IOException e) {
             LOG.warning("Path read error");
-            throw new StorageException("Path read error", null);
+            throw new StorageException("Path read error", null, e);
         }
     }
 
@@ -109,7 +112,15 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
         }
     }
 
-    protected abstract void doWrite(OutputStream os, Resume resume) throws IOException;
+    protected void setStrategy(SerializationStrategy strategy) {
+        this.strategy = strategy;
+    }
 
-    protected abstract Resume doRead(InputStream is) throws IOException;
+    protected void doWrite(OutputStream os, Resume resume) throws IOException {
+        strategy.doWrite(os, resume);
+    }
+
+    protected Resume doRead(InputStream is) throws IOException {
+        return strategy.doRead(is);
+    }
 }
