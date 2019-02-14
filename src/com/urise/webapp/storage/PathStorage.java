@@ -2,10 +2,9 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.storage.serialization.SerializationStrategy;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -85,7 +84,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected void doUpdate(Path path, Resume resume) {
         try {
-            doWrite(Files.newOutputStream(path), resume);
+            strategy.doWrite(Files.newOutputStream(path), resume);
         } catch (IOException e) {
             LOG.warning("Path write error " + path.getFileName().toString());
             throw new StorageException("Path write error", path.getFileName().toString(), e);
@@ -95,7 +94,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume doGet(Path path) {
         try {
-            return doRead(Files.newInputStream(path));
+            return strategy.doRead(Files.newInputStream(path));
         } catch (IOException e) {
             LOG.warning("Path read error " + path.getFileName().toString());
             throw new StorageException("Path read error", path.getFileName().toString(), e);
@@ -114,13 +113,5 @@ public class PathStorage extends AbstractStorage<Path> {
 
     protected void setStrategy(SerializationStrategy strategy) {
         this.strategy = strategy;
-    }
-
-    protected void doWrite(OutputStream os, Resume resume) throws IOException {
-        strategy.doWrite(os, resume);
-    }
-
-    protected Resume doRead(InputStream is) throws IOException {
-        return strategy.doRead(is);
     }
 }

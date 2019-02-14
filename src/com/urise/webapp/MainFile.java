@@ -22,31 +22,23 @@ public class MainFile {
 
         System.out.println("\n====================HW8====================");
         File dir = new File("D:\\Java");
-        printAllFileNames(dir);
+        StringBuilder paragraph = new StringBuilder();
+        printAllFileNames(dir, paragraph);
     }
 
-    private static int countSpace = 0;
-
-    private static void printAllFileNames(File dir) {
+    private static void printAllFileNames(File dir, StringBuilder paragraph) {
         File[] list = dir.listFiles();
         if (list != null) {
             for (File file : list) {
+                System.out.print(paragraph.toString());
+                paragraph.append("\t");
                 if (file.isDirectory()) {
-                    for (int i = 0; i < countSpace; i++) {
-                        System.out.print("\t");
-                    }
-                    countSpace++;
                     System.out.println("Directory: " + file.getName());
-                    printAllFileNames(file);
-                    countSpace--;
+                    printAllFileNames(file, paragraph);
                 } else {
-                    for (int i = 0; i < countSpace; i++) {
-                        System.out.print("\t");
-                    }
-                    countSpace++;
                     System.out.println("File: " + file.getName());
-                    countSpace--;
                 }
+                paragraph = paragraph.deleteCharAt(paragraph.length()-1);
             }
         }
     }
