@@ -24,6 +24,7 @@ public class MainFile {
         File dir = new File("D:\\Java");
         StringBuilder paragraph = new StringBuilder();
         printAllFileNames(dir, paragraph);
+        printDirectoryDeeply(dir, "");
     }
 
     private static void printAllFileNames(File dir, StringBuilder paragraph) {
@@ -31,14 +32,28 @@ public class MainFile {
         if (list != null) {
             for (File file : list) {
                 System.out.print(paragraph.toString());
-                paragraph.append("\t");
+                paragraph.append(" ");
                 if (file.isDirectory()) {
-                    System.out.println("Directory: " + file.getName());
+                    System.out.println("D: " + file.getName());
                     printAllFileNames(file, paragraph);
                 } else {
-                    System.out.println("File: " + file.getName());
+                    System.out.println("F: " + file.getName());
                 }
-                paragraph = paragraph.deleteCharAt(paragraph.length()-1);
+                paragraph.deleteCharAt(paragraph.length()-1);
+            }
+        }
+    }
+
+    public static void printDirectoryDeeply(File dir, String offset) {
+        File[] files = dir.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    System.out.println(offset + "F: " + file.getName());
+                } else if (file.isDirectory()) {
+                    System.out.println(offset + "D: " + file.getName());
+                    printDirectoryDeeply(file, offset + "  ");
+                }
             }
         }
     }

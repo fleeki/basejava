@@ -35,7 +35,7 @@ public class FileStorage extends AbstractStorage<File> {
             }
         } else {
             LOG.warning("Directory clear error");
-            throw new StorageException("Directory clear error", null);
+            throw new StorageException("Directory clear error");
         }
     }
 
@@ -46,7 +46,7 @@ public class FileStorage extends AbstractStorage<File> {
             return list.length;
         } else {
             LOG.warning("Directory size error");
-            throw new StorageException("Directory size error", null);
+            throw new StorageException("Directory size error");
         }
     }
 
@@ -61,7 +61,7 @@ public class FileStorage extends AbstractStorage<File> {
             return listResume;
         } else {
             LOG.warning("Directory read error");
-            throw new StorageException("Directory read error", null);
+            throw new StorageException("Directory read error");
         }
     }
 

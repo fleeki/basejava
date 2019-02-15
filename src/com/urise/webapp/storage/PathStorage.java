@@ -5,21 +5,21 @@ import com.urise.webapp.model.Resume;
 import com.urise.webapp.storage.serialization.SerializationStrategy;
 
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
     private Path directory;
     private SerializationStrategy strategy;
 
     protected PathStorage(String dir) {
+        Objects.requireNonNull(dir, " directory must not be null");
         directory = Paths.get(dir);
-        Objects.requireNonNull(directory, " directory must not be null");
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
             LOG.warning(dir + " is not directory or is not writable");
             throw new IllegalArgumentException(dir + " is not directory or is not writable");
@@ -28,36 +28,17 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     public void clear() {
-        try {
-            Files.list(directory).forEach(this::doDelete);
-        } catch (IOException e) {
-            LOG.warning("Path clear error");
-            throw new StorageException("Path clear error", null, e);
-        }
+        getFilesList().forEach(this::doDelete);
     }
 
     @Override
     public int size() {
-        try {
-            return (int) Files.list(directory).count();
-        } catch (IOException e) {
-            LOG.warning("Path read error");
-            throw new StorageException("Path read error", null, e);
-        }
+        return (int) getFilesList().count();
     }
 
     @Override
     protected List<Resume> doCopyAll() {
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(directory)) {
-            List<Resume> listResume = new ArrayList<>();
-            for (Path path : stream) {
-                listResume.add(doGet(path));
-            }
-            return listResume;
-        } catch (IOException e) {
-            LOG.warning("Path read error");
-            throw new StorageException("Path read error", null, e);
-        }
+        return getFilesList().map(this::doGet).collect(Collectors.toList());
     }
 
     @Override
@@ -75,8 +56,8 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             Files.createFile(path);
         } catch (IOException e) {
-            LOG.warning("Couldn't create file " + path.getFileName().toString());
-            throw new StorageException("Couldn't create file " + path, path.getFileName().toString(), e);
+            LOG.warning("Couldn't create file " + getFileName(path));
+            throw new StorageException("Couldn't create file " + path, getFileName(path), e);
         }
         doUpdate(path, resume);
     }
@@ -86,8 +67,8 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             strategy.doWrite(Files.newOutputStream(path), resume);
         } catch (IOException e) {
-            LOG.warning("Path write error " + path.getFileName().toString());
-            throw new StorageException("Path write error", path.getFileName().toString(), e);
+            LOG.warning("Path write error " + getFileName(path));
+            throw new StorageException("Path write error", getFileName(path), e);
         }
     }
 
@@ -96,8 +77,8 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             return strategy.doRead(Files.newInputStream(path));
         } catch (IOException e) {
-            LOG.warning("Path read error " + path.getFileName().toString());
-            throw new StorageException("Path read error", path.getFileName().toString(), e);
+            LOG.warning("Path read error " + getFileName(path));
+            throw new StorageException("Path read error", getFileName(path), e);
         }
     }
 
@@ -106,12 +87,25 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             Files.delete(path);
         } catch (IOException e) {
-            LOG.warning("Path delete error");
-            throw new StorageException("Path delete error", path.getFileName().toString(), e);
+            LOG.warning("Path delete error " + getFileName(path));
+            throw new StorageException("Path delete error", getFileName(path), e);
         }
     }
 
     protected void setStrategy(SerializationStrategy strategy) {
         this.strategy = strategy;
+    }
+
+    private String getFileName(Path path) {
+        return path.getFileName().toString();
+    }
+
+    private Stream<Path> getFilesList() {
+        try {
+            return Files.list(directory);
+        } catch (IOException e) {
+            LOG.warning("Path read error");
+            throw new StorageException("Path read error", e);
+        }
     }
 }
