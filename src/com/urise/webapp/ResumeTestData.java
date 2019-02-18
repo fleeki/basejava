@@ -70,7 +70,7 @@ public class ResumeTestData {
 
     private static void printAllContacts() {
         System.out.println("\nСписок всех контактов:");
-        for (Map.Entry contact : resume.getAllContacts().entrySet()) {
+        for (Map.Entry<ContactType, String> contact : resume.getContacts().entrySet()) {
             System.out.println(contact.getKey() + " " + contact.getValue());
         }
     }
