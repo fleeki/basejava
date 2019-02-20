@@ -26,8 +26,7 @@ public class DataStreamSerialization implements SerializationStrategy {
                 dos.writeUTF(entry.getValue());
             });
 
-            Map<SectionType, AbstractSection> sections = resume.getSections();
-            writeCollection(dos, sections.entrySet(), entry -> writeSection(dos, entry.getKey(), entry.getValue()));
+            writeCollection(dos, resume.getSections().entrySet(), entry -> writeSection(dos, entry.getKey(), entry.getValue()));
         }
     }
 
@@ -64,13 +63,13 @@ public class DataStreamSerialization implements SerializationStrategy {
             case EDUCATION:
                 writeCollection(dos, ((OrganizationSection) sectionValue).getOrganizations(), organization -> {
                     dos.writeUTF(organization.getHomePage().getName());
-                    dos.writeUTF(organization.getHomePage().getUrl() != null ? organization.getHomePage().getUrl() : "");
+                    dos.writeUTF(organization.getHomePage().getUrl());
 
                     writeCollection(dos, organization.getPositions(), position -> {
                         writeLocalDate(dos, position.getStartDate());
                         writeLocalDate(dos, position.getEndDate());
                         dos.writeUTF(position.getTitle());
-                        dos.writeUTF(position.getDescription() != null ? position.getDescription() : "");
+                        dos.writeUTF(position.getDescription());
                     });
                 });
                 break;
@@ -88,16 +87,13 @@ public class DataStreamSerialization implements SerializationStrategy {
             case EXPERIENCE:
             case EDUCATION:
                 return new OrganizationSection(readCollection(dis, () -> {
-                    String name = dis.readUTF();
-                    String url = dis.readUTF();
-                    Link link = new Link(name, "".equals(url) ? null : url);
+                    Link link = new Link(dis.readUTF(), dis.readUTF());
                     return new Organization(link, readCollection(dis, () -> {
                         LocalDate startDate = of(dis.readInt(), Month.valueOf(dis.readUTF()));
                         LocalDate endDate = of(dis.readInt(), Month.valueOf(dis.readUTF()));
                         String title = dis.readUTF();
                         String description = dis.readUTF();
-                        return new Organization.Position(startDate, endDate, title,
-                                "".equals(description) ? null : description);
+                        return new Organization.Position(startDate, endDate, title, description);
                     }));
                 }));
             default:
