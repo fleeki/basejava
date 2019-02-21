@@ -28,15 +28,15 @@ class Operation {
 
     public void firstThread() {
         Random random = new Random();
-        for (int i = 0; i < 10000; i++) {
-            transfer(account1, account2, random.nextInt(100));
+        for (int i = 0; i < 10; i++) {
+            Account.transfer(account1, account2, random.nextInt(100));
         }
     }
 
     public void secondThread() {
         Random random = new Random();
-        for (int i = 0; i < 10000; i++) {
-            transfer(account2, account1, random.nextInt(100));
+        for (int i = 0; i < 10; i++) {
+            Account.transfer(account2, account1, random.nextInt(100));
         }
     }
 
@@ -44,20 +44,6 @@ class Operation {
         System.out.println("Balance account1: " + account1.getBalance());
         System.out.println("Balance account2: " + account2.getBalance());
         System.out.println("Total balance: " + (account1.getBalance() + account2.getBalance()));
-    }
-
-    public void transfer(Account giver, Account receiving, int amount) {
-        synchronized (account1) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            synchronized (account2) {
-                giver.withdraw(amount);
-                receiving.deposit(amount);
-            }
-        }
     }
 }
 
@@ -74,5 +60,28 @@ class Account {
 
     public int getBalance() {
         return balance;
+    }
+
+    public static void transfer(Account giver, Account receiving, int amount) {
+        System.out.println("In transfer(). Thread: " + Thread.currentThread().getName());
+        synchronized (giver) {
+            System.out.println("In first synchronized block. Thread: " + Thread.currentThread().getName());
+            try {
+                System.out.println("Sleep in first synchronized block. Thread: " + Thread.currentThread().getName());
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Wakeup in first synchronized block. Thread: " + Thread.currentThread().getName());
+            synchronized (receiving) {
+                System.out.println("In second synchronized block before withdraw(). Thread: " + Thread.currentThread().getName());
+                giver.withdraw(amount);
+                System.out.println("In second synchronized block after withdraw() but before deposit(). Thread: " + Thread.currentThread().getName());
+                receiving.deposit(amount);
+                System.out.println("In second synchronized block after deposit(). Thread: " + Thread.currentThread().getName());
+            }
+            System.out.println("In first synchronized block before second synchronized block. Thread: " + Thread.currentThread().getName());
+        }
+        System.out.println("In transfer() before first synchronized block. Thread: " + Thread.currentThread().getName());
     }
 }
