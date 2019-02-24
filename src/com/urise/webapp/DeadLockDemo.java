@@ -63,25 +63,25 @@ class Account {
     }
 
     public static void transfer(Account giver, Account receiving, int amount) {
-        System.out.println("In transfer(). Thread: " + Thread.currentThread().getName());
+        System.out.println("In transfer(): " + Thread.currentThread().getName());
         synchronized (giver) {
-            System.out.println("In first synchronized block. Thread: " + Thread.currentThread().getName());
+            System.out.println("In first synchronized block: " + Thread.currentThread().getName());
             try {
-                System.out.println("Sleep in first synchronized block. Thread: " + Thread.currentThread().getName());
+                System.out.println("Sleep in first synchronized block: " + Thread.currentThread().getName());
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("Wakeup in first synchronized block. Thread: " + Thread.currentThread().getName());
+            System.out.println("Wakeup in first synchronized block: " + Thread.currentThread().getName());
             synchronized (receiving) {
-                System.out.println("In second synchronized block before withdraw(). Thread: " + Thread.currentThread().getName());
+                System.out.println("In second synchronized block before withdraw(): " + Thread.currentThread().getName());
                 giver.withdraw(amount);
-                System.out.println("In second synchronized block after withdraw() but before deposit(). Thread: " + Thread.currentThread().getName());
+                System.out.println("In second synchronized block after withdraw() but before deposit(): " + Thread.currentThread().getName());
                 receiving.deposit(amount);
-                System.out.println("In second synchronized block after deposit(). Thread: " + Thread.currentThread().getName());
+                System.out.println("In second synchronized block after deposit(): " + Thread.currentThread().getName());
             }
-            System.out.println("In first synchronized block before second synchronized block. Thread: " + Thread.currentThread().getName());
+            System.out.println("In first synchronized block before second synchronized block: " + Thread.currentThread().getName());
         }
-        System.out.println("In transfer() before first synchronized block. Thread: " + Thread.currentThread().getName());
+        System.out.println("In transfer() before first synchronized block: " + Thread.currentThread().getName());
     }
 }
