@@ -3,6 +3,7 @@ package com.urise.webapp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class StreamDemo {
@@ -21,10 +22,10 @@ public class StreamDemo {
     }
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
-        final int[] sum = {0};
+        final AtomicInteger sum = new AtomicInteger(0);
         return integers.stream().collect(Collectors.partitioningBy(x -> {
-            sum[0] += x;
+            sum.addAndGet(x);
             return x % 2 == 0;
-        })).get(sum[0] % 2 != 0);
+        })).get(sum.get() % 2 != 0);
     }
 }
