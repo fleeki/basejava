@@ -22,8 +22,4 @@ public class SqlHelper {
             throw new StorageException(e);
         }
     }
-
-    public void execute(String sql) {
-        execute(sql, PreparedStatement::execute);
-    }
 }
