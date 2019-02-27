@@ -11,25 +11,17 @@ alter table resume
 create table contact
 (
   id          serial   not null
-    constraint contact_pk primary key,
-  type        text     not null,
-  value       text     not null,
+    constraint contact_pk
+      primary key,
   resume_uuid char(36) not null
     constraint contact_resume_uuid_fk
-      references resume on update restrict on delete cascade
+      references resume
+      on update restrict on delete cascade,
+  type        text     not null,
+  value       text     not null
 );
 
 alter table contact
   owner to "Pavel";
 
 create unique index contact_uuid_type_index on contact (resume_uuid, type);
-
-create or replace function resumes_count(out cnt integer) as
-$$
-begin
-  select count(*)
-  from resume into cnt;
-  return;
-end;
-$$
-  language plpgsql;

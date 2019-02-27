@@ -3,7 +3,7 @@ package com.urise.webapp.sql;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public interface SqlProcessor<T> {
+public interface SqlExecutor<T> {
 
-    T process(PreparedStatement ps) throws SQLException;
+    T execute(PreparedStatement ps) throws SQLException;
 }

@@ -27,40 +27,48 @@ public class ResumeTestData {
         resume.addContact(ContactType.SKYPE, "some skype");
         resume.addContact(ContactType.EMAIL, "some email");
 
-        resume.addSection(SectionType.OBJECTIVE, new TextSection("some content"));
-        resume.addSection(SectionType.PERSONAL, new TextSection("some content"));
+//        resume.addSection(SectionType.OBJECTIVE, new TextSection("some content"));
+//        resume.addSection(SectionType.PERSONAL, new TextSection("some content"));
+//
+//        resume.addSection(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList("item_1",
+//                "item_2", "item_3")));
+//        resume.addSection(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList("item_1",
+//                "item_2", "item_3")));
+//
+//        Organization.Position javaopsPosition = new Organization.Position("10/2013", "сейчас", "some title",
+//                "javaops description");
+//        Organization javaops = new Organization("Java Online Projects", "http://javaops.ru/",
+//                javaopsPosition);
+//
+//        Organization.Position wrikePosition = new Organization.Position("10/2014", "1/2016", "some title",
+//                "wrike description");
+//        Organization wrike = new Organization("Wrike", "https://www.wrike.com",
+//                wrikePosition);
+//
+//        resume.addSection(SectionType.EXPERIENCE, new OrganizationSection(Arrays.asList(javaops, wrike)));
+//
+//        Organization.Position courseraPosition = new Organization.Position("3/2013", "5/2013", "some title",
+//                null);
+//        Organization coursera = new Organization("Coursera", "https://www.coursera.org",
+//                courseraPosition);
+//
+//        Organization.Position itmoPosition_1 = new Organization.Position("9/1993", "7/1996", "some title",
+//                null);
+//        Organization.Position itmoPosition_2 = new Organization.Position("9/1987", "7/1993", "some title",
+//                null);
+//        Organization itmo = new Organization("Университет ИТМО", "http://www.ifmo.ru/",
+//                itmoPosition_1, itmoPosition_2);
+//
+//        resume.addSection(SectionType.EDUCATION, new OrganizationSection(Arrays.asList(coursera, itmo)));
 
-        resume.addSection(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList("item_1",
-                "item_2", "item_3")));
-        resume.addSection(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList("item_1",
-                "item_2", "item_3")));
+        return resume;
+    }
 
-        Organization.Position javaopsPosition = new Organization.Position("10/2013", "сейчас", "some title",
-                "javaops description");
-        Organization javaops = new Organization("Java Online Projects", "http://javaops.ru/",
-                javaopsPosition);
-
-        Organization.Position wrikePosition = new Organization.Position("10/2014", "1/2016", "some title",
-                "wrike description");
-        Organization wrike = new Organization("Wrike", "https://www.wrike.com",
-                wrikePosition);
-
-        resume.addSection(SectionType.EXPERIENCE, new OrganizationSection(Arrays.asList(javaops, wrike)));
-
-        Organization.Position courseraPosition = new Organization.Position("3/2013", "5/2013", "some title",
-                null);
-        Organization coursera = new Organization("Coursera", "https://www.coursera.org",
-                courseraPosition);
-
-        Organization.Position itmoPosition_1 = new Organization.Position("9/1993", "7/1996", "some title",
-                null);
-        Organization.Position itmoPosition_2 = new Organization.Position("9/1987", "7/1993", "some title",
-                null);
-        Organization itmo = new Organization("Университет ИТМО", "http://www.ifmo.ru/",
-                itmoPosition_1, itmoPosition_2);
-
-        resume.addSection(SectionType.EDUCATION, new OrganizationSection(Arrays.asList(coursera, itmo)));
-
+    public static Resume fillResumeUpdate(String uuid, String fullName) {
+        resume = new Resume(uuid, fullName);
+        resume.addContact(ContactType.PHONE, "new phone number");
+        resume.addContact(ContactType.SKYPE, "new skype");
+        resume.addContact(ContactType.EMAIL, "new email");
         return resume;
     }
 

@@ -2,10 +2,7 @@ package com.urise.webapp.sql;
 
 import com.urise.webapp.exception.StorageException;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class SqlHelper {
     private final ConnectionFactory connectionFactory;
@@ -14,10 +11,27 @@ public class SqlHelper {
         connectionFactory = () -> DriverManager.getConnection(dbUrl, dbUser, dbPassword);
     }
 
-    public <T> T execute(String sql, SqlProcessor<T> processor) {
+    public <T> T execute(String sql, SqlExecutor<T> executor) {
         try (Connection connection = connectionFactory.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
-            return processor.process(ps);
+             PreparedStatement ps = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE,
+                     ResultSet.CONCUR_READ_ONLY)) {
+            return executor.execute(ps);
+        } catch (SQLException e) {
+            throw ExceptionUtil.convertException(e);
+        }
+    }
+
+    public <T> T transactionalExecute(SqlTransaction<T> transaction) {
+        try (Connection connection = connectionFactory.getConnection()) {
+            try {
+                connection.setAutoCommit(false);
+                T result = transaction.execute(connection);
+                connection.commit();
+                return result;
+            } catch (SQLException e) {
+                connection.rollback();
+                throw ExceptionUtil.convertException(e);
+            }
         } catch (SQLException e) {
             throw new StorageException(e);
         }
