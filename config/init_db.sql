@@ -5,9 +5,6 @@ create table resume
   full_name text     not null
 );
 
-alter table resume
-  owner to "Pavel";
-
 create table contact
 (
   id          serial   not null
@@ -20,8 +17,5 @@ create table contact
   type        text     not null,
   value       text     not null
 );
-
-alter table contact
-  owner to "Pavel";
 
 create unique index contact_uuid_type_index on contact (resume_uuid, type);
