@@ -13,8 +13,7 @@ public class SqlHelper {
 
     public <T> T execute(String sql, SqlExecutor<T> executor) {
         try (Connection connection = connectionFactory.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE,
-                     ResultSet.CONCUR_READ_ONLY)) {
+             PreparedStatement ps = connection.prepareStatement(sql)) {
             return executor.execute(ps);
         } catch (SQLException e) {
             throw ExceptionUtil.convertException(e);
