@@ -8,33 +8,20 @@ import java.util.Map;
 public class ResumeTestData {
     private static Resume resume;
 
-    public static void main(String[] args) {
-        fillResume("uuid", "some name");
-        printContact(ContactType.PHONE);
-        printContact(ContactType.SKYPE);
-        printAllContacts();
-        printTextSection(SectionType.OBJECTIVE);
-        printTextSection(SectionType.PERSONAL);
-        printListSection(SectionType.ACHIEVEMENT);
-        printListSection(SectionType.QUALIFICATIONS);
-        printOrganizationSection(SectionType.EXPERIENCE);
-        printOrganizationSection(SectionType.EDUCATION);
-    }
-
     public static Resume fillResume(String uuid, String fullName) {
         resume = new Resume(uuid, fullName);
         resume.addContact(ContactType.PHONE, "some phone number");
         resume.addContact(ContactType.SKYPE, "some skype");
         resume.addContact(ContactType.EMAIL, "some email");
 
-//        resume.addSection(SectionType.OBJECTIVE, new TextSection("some content"));
-//        resume.addSection(SectionType.PERSONAL, new TextSection("some content"));
-//
-//        resume.addSection(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList("item_1",
-//                "item_2", "item_3")));
-//        resume.addSection(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList("item_1",
-//                "item_2", "item_3")));
-//
+        resume.addSection(SectionType.OBJECTIVE, new TextSection("objective some content"));
+        resume.addSection(SectionType.PERSONAL, new TextSection("personal some content"));
+
+        resume.addSection(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList("achievement item_1",
+                "achievement item_2", "achievement item_3")));
+        resume.addSection(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList("qualifications item_1",
+                "qualifications item_2", "qualifications item_3")));
+
 //        Organization.Position javaopsPosition = new Organization.Position("10/2013", "сейчас", "some title",
 //                "javaops description");
 //        Organization javaops = new Organization("Java Online Projects", "http://javaops.ru/",
@@ -69,38 +56,15 @@ public class ResumeTestData {
         resume.addContact(ContactType.PHONE, "new phone number");
         resume.addContact(ContactType.SKYPE, "new skype");
         resume.addContact(ContactType.EMAIL, "new email");
+
+        resume.addSection(SectionType.OBJECTIVE, new TextSection("new objective some content"));
+        resume.addSection(SectionType.PERSONAL, new TextSection("new personal some content"));
+
+        resume.addSection(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList("new achievement item_1",
+                "new achievement item_2", "new achievement item_3")));
+        resume.addSection(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList("new qualifications item_1",
+                "new qualifications item_2", "new qualifications item_3")));
+
         return resume;
-    }
-
-    private static void printContact(ContactType cntType) {
-        System.out.println(cntType + " " + resume.getContact(cntType));
-    }
-
-    private static void printAllContacts() {
-        System.out.println("\nСписок всех контактов:");
-        for (Map.Entry<ContactType, String> contact : resume.getContacts().entrySet()) {
-            System.out.println(contact.getKey() + " " + contact.getValue());
-        }
-    }
-
-    private static void printTextSection(SectionType type) {
-        TextSection textSection = (TextSection) resume.getSection(type);
-        System.out.println("\n" + type + " " + textSection.getContent());
-    }
-
-    private static void printListSection(SectionType type) {
-        ListSection listSection = (ListSection) resume.getSection(type);
-        System.out.println("\n" + type);
-        for (String item : listSection.getItems()) {
-            System.out.println(item);
-        }
-    }
-
-    private static void printOrganizationSection(SectionType type) {
-        OrganizationSection organizationSection = (OrganizationSection) resume.getSection(type);
-        System.out.println("\n" + type);
-        for (Organization organization : organizationSection.getOrganizations()) {
-            System.out.println(organization);
-        }
     }
 }
