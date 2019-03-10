@@ -1,58 +1,109 @@
-body {
-    min-width: 700px;
-}
-
-section {
-    width: 900px;
-    margin: auto;
-    min-width: 700px;
+html, body {
+    background: #FFE4B5;
+    height: 100%;
+    margin: 0;
 }
 
 header {
     background: #9ACD32;
-    color: #2E6E9E;
-    font-size: 20px;
     padding: 5px;
+    font-size: 20px;
     text-align: center;
-    width: 70%;
-    margin: auto;
-    min-width: 700px;
     border-radius: 5px;
+}
+
+section {
+    padding: 0 20px;
 }
 
 footer {
     background: #9ACD32;
-    color: #2E6E9E;
-    text-align: center;
+    width: 100%;
     height: 34px;
-    width: 70%;
-    margin: auto;
-    min-width: 700px;
+    text-align: center;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 0;
+}
+
+.page {
+    background: #FFFACD;
+    min-height: 100%;
+    width: 900px;
+    position: relative;
+    margin: 0 auto;
     border-radius: 5px;
 }
 
+.contact-list {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.contact-photo {
+    width: 150px;
+    margin: 0;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.section {
+    margin-top: 25px;
+}
+
+h1, h2, h3 {
+    margin: 15px 0 5px;
+}
+
+dt h3 {
+    margin: 0;
+}
+
 hr {
-    width: 60%;
+    width: 70%;
 }
 
-table {
+.table-list_resumes {
     margin: auto;
+    border-collapse: collapse;
+    border-left: 3px solid #6B8E23;
+    border-right: 3px solid #6B8E23;
+    border-bottom: 3px solid #6B8E23;
+    font-family: "Lucida Grande", sans-serif;
 }
 
-.center {
+.table-list_resumes caption {
+    background: #6B8E23;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px  4px 0 rgba(0,0,0,.3);
+    font-family: "Roboto Slab", serif;
+    font-style: normal;
+    font-size: 26px;
+    text-align: center;
+    margin: 0;
+}
+
+.table-list_resumes td, .table-list_resumes th {
+    padding: 10px;
+}
+
+.table-list_resumes th {
+    text-align: left;
+    font-size: 18px;
+}
+
+.table-list_resumes tr:nth-child(2n) {
+    background: #dcf4af;
+}
+
+.button {
     text-align: center;
 }
 
 button {
     margin: 10px;
-}
-
-.section {
-    margin-top: 35px;
-}
-
-.section h3 {
-    margin: 0 0 5px;
 }
 
 li {
@@ -64,7 +115,6 @@ ul {
 }
 
 dl {
-    background: none repeat scroll 0 0 #FAFAFA;
     margin: 8px 0;
     padding: 0;
 }
@@ -80,31 +130,6 @@ dd {
     vertical-align: top;
 }
 
-h2, h3 {
-    margin: 15px 0 5px;
-}
-
-a[href^="skype:"] {
-    padding-left: 20px !important;
-    background: url(../img/skype.png) no-repeat center left;
-}
-
-a[href^="mailto:"] {
-    padding-left: 20px !important;
-    background: url(../img/email.png) no-repeat center left;
-}
-
-a[href^="https://stackoverflow.com"] {
-    padding-left: 20px !important;
-    background: url(../img/so.png) no-repeat center left;
-}
-
-a[href^="https://www.linkedin.com"] {
-    padding-left: 20px !important;
-    background: url(../img/lin.png) no-repeat center left;
-}
-
-a[href*="github."] {
-    padding-left: 20px !important;
-    background: url(../img/gh.png) no-repeat center left;
+input, textarea {
+    font-family: "Tahoma", serif;
 }
