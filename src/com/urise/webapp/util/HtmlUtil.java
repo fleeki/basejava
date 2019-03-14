@@ -5,6 +5,8 @@ import com.urise.webapp.model.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import static com.urise.webapp.util.DateUtil.NOW;
+
 public class HtmlUtil {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MM/yyyy");
 
@@ -12,38 +14,49 @@ public class HtmlUtil {
         if (value == null) {
             return "";
         } else {
+            String title = type.getTitle().toLowerCase();
             switch (type) {
                 case PHONE:
-                    return "<img src=\"img/phone.png\" height=\"16\" align=\"left\" style=\"margin-right: 5px\">" + value;
-                case SKYPE:
-                    return "<img src=\"img/skype.png\" height=\"16\" align=\"left\" style=\"margin-right: 5px\"><a href='skype:" + value + "'>" + value + "</a>";
+                    return printLink("phone", value);
                 case EMAIL:
-                    return "<img src=\"img/email.png\" height=\"16\" align=\"left\" style=\"margin-right: 5px\"><a href='mailto:" + value + "'>" + value + "</a>";
+                    return printLink("email", "'mailto:" + value + "'", title, value);
+                case SKYPE:
+                    return printLink("skype", "'skype:" + value + "'", title, value);
+                case HOME_PHONE:
+                    return printLink("homephone", value);
+                case MOBILE:
+                    return printLink("mobile", value);
+                case LINKEDIN:
+                    return printLink("lin", value, title, value);
+                case GITHUB:
+                    return printLink("gh", value, title, value);
+                case STACKOVERFLOW:
+                    return printLink("so", value, title, value);
+                case HOME_PAGE:
+                    return printLink("homepage", value, title, value);
                 default:
                     return type.getTitle() + ": " + value;
             }
         }
     }
 
-    public static String printTextSectionToHtml(SectionType type, Resume resume) {
-        TextSection section = ((TextSection) resume.getSection(type));
-        return section == null ? "" : section.getContent();
+    private static String printLink(String img, String value) {
+        return "<img src=\"img/" + img + ".png\">" + value;
     }
 
-    public static String printListSectionToHtml(SectionType type, Resume resume) {
-        ListSection section = ((ListSection) resume.getSection(type));
-        return section == null ? "" : String.join("\n", section.getItems());
+    private static String printLink(String img, String href, String title, String value) {
+        return "<img src=\"img/" + img + ".png\"><a href=\"" + href + "\" title=\"" + title + "\">" + value + "</a>";
     }
 
-    public static String printStartDatePositionToHtml(LocalDate start) {
-        return start.format(FORMATTER);
-    }
-
-    public static String printEndDatePositionToHtml(LocalDate end) {
-        if (end.getYear() == 3000) {
-            return "настоящее время";
+    public static String printDatePositionToHtml(LocalDate date) {
+        if (date == null) {
+            return "";
         } else {
-            return end.format(FORMATTER);
+            return date.equals(NOW) ? "настоящее время" : date.format(FORMATTER);
         }
+    }
+
+    public static boolean isEmpty(String str) {
+        return str == null || str.trim().length() == 0;
     }
 }

@@ -11,8 +11,10 @@ public class DateUtil {
     }
 
     public static LocalDate dateFormat(String date) {
-        if ("сейчас".equals(date)) {
+        if (HtmlUtil.isEmpty(date) || "настоящее время".equals(date)) {
             return NOW;
+        } else if (date.startsWith("0")) {
+            date = date.substring(1);
         }
 
         String[] params = date.trim().toLowerCase().split("/");

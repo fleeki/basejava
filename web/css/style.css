@@ -1,6 +1,5 @@
 html, body {
     background: #FFE4B5;
-    height: 100%;
     margin: 0;
 }
 
@@ -13,14 +12,13 @@ header {
 }
 
 section {
-    padding: 0 20px;
+    padding: 0 20px 50px;
 }
 
 footer {
     background: #9ACD32;
     width: 100%;
     height: 34px;
-    text-align: center;
     border-radius: 5px;
     position: absolute;
     bottom: 0;
@@ -28,16 +26,12 @@ footer {
 
 .page {
     background: #FFFACD;
+    width: 80%;
     min-height: 100%;
-    width: 900px;
+    min-width: 900px;
     position: relative;
     margin: 0 auto;
     border-radius: 5px;
-}
-
-.contact-list {
-    display: inline-block;
-    vertical-align: top;
 }
 
 .contact-photo {
@@ -47,16 +41,46 @@ footer {
     vertical-align: top;
 }
 
+.contact-list {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.contact-list img, .td-img img {
+    height: 16px;
+    margin-right: 5px;
+    margin-bottom: -3px;
+}
+
 .section {
     margin-top: 25px;
 }
 
-h1, h2, h3 {
+.date-position {
+    width: 180px;
+    margin: 0;
+    display: inline-block;
+    vertical-align: top;
+    line-height: 1.5;
+}
+
+.description-position {
+    width: 650px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.description-position h4 {
+    margin: 3px 0 5px;
+}
+
+
+h1, h2, h3, .block-input .h3 {
     margin: 15px 0 5px;
 }
 
-dt h3 {
-    margin: 0;
+.organization h3 {
+    margin: 5px 0 5px;
 }
 
 hr {
@@ -65,11 +89,13 @@ hr {
 
 .table-list_resumes {
     margin: auto;
+    width: 100%;
     border-collapse: collapse;
     border-left: 3px solid #6B8E23;
     border-right: 3px solid #6B8E23;
     border-bottom: 3px solid #6B8E23;
     font-family: "Lucida Grande", sans-serif;
+    transition: all 500ms ease;
 }
 
 .table-list_resumes caption {
@@ -94,16 +120,52 @@ hr {
     font-size: 18px;
 }
 
-.table-list_resumes tr:nth-child(2n) {
+.table-list_resumes tbody tr:nth-child(2n+1) {
     background: #dcf4af;
 }
 
-.button {
+.table-list_resumes tbody tr:hover {
+    background: #ffdb58;
+}
+
+.button-center {
     text-align: center;
 }
 
-button {
+button, .button {
+    width: 120px;
+    height: 40px;
     margin: 10px;
+    border: none;
+    background: #6B8E23;
+    color: #FFFACD;
+    padding: 10px;
+    font-family: "Tahoma", serif;
+    font-size: 18px;
+    border-radius: 5px;
+    position: relative;
+    box-sizing: border-box;
+    transition: all 500ms ease;
+    outline: none;
+    display: inline-block;
+}
+
+button:hover, .button:hover {
+    background: rgba(0,0,0,0);
+    color: #6B8E23;
+    box-shadow: inset 0 0 0 3px #6B8E23;
+}
+
+.button a {
+    display: block;
+    text-decoration: none;
+    color: #FFFACD;
+    cursor: default;
+}
+
+.button a:hover {
+    text-decoration: none;
+    color: #6B8E23;
 }
 
 li {
@@ -114,22 +176,34 @@ ul {
     margin: 0;
 }
 
-dl {
-    margin: 8px 0;
-    padding: 0;
-}
-
-dt {
-    display: inline-block;
-    width: 170px;
-}
-
-dd {
-    display: inline-block;
-    margin-left: 8px;
-    vertical-align: top;
-}
-
 input, textarea {
     font-family: "Tahoma", serif;
+    padding: 5px 0 5px 5px;
+    border: 0.1em solid #6B8E23;
+    border-radius: 5px;
+}
+
+input {
+    width: 257px;
+}
+
+textarea {
+    margin-bottom: 5px;
+}
+
+input[type="text"]:focus, textarea:focus {
+    outline: none;
+    border: 0.17em solid #6B8E23;
+    border-radius: 5px;
+}
+
+.block-input > div {
+    display: inline-block;
+    vertical-align: center;
+    width: 250px;
+    margin-bottom: 5px;
+}
+
+form {
+    margin: 0;
 }

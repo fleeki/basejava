@@ -1,5 +1,7 @@
 <%@ page import="com.urise.webapp.model.ContactType" %>
 <%@ page import="com.urise.webapp.util.HtmlUtil" %>
+<%@ page import="com.urise.webapp.model.SectionType" %>
+<%@ page import="com.urise.webapp.model.TextSection" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -12,22 +14,31 @@
 <div class="page">
     <jsp:include page="fragments/header.jsp"/>
     <section>
+        <div class="button-center">
+            <div class="button"><a href="resume?action=add">Добавить</a></div>
+        </div>
         <table class="table-list_resumes">
             <caption>База данных резюме</caption>
+            <thead>
             <tr>
-                <th width="400px" colspan="2">Имя</th>
-                <th width="200px" colspan="2">Контакты</th>
+                <th colspan="2" width="120">Имя</th>
+                <th colspan="2">Контакты</th>
             </tr>
-            <c:forEach items="${resumes}" var="resume">
+            </thead>
+            <tbody>
+            <c:forEach var="resume" items="${resumes}">
                 <jsp:useBean id="resume" type="com.urise.webapp.model.Resume"/>
                 <tr>
-                    <td width="64">
+                    <td width="65">
                         <img src="img/photo.png" height="64" style="border-radius: 5px" alt="photo"/>
                     </td>
-                    <td>
+                    <td width="350px">
                         <a href="resume?uuid=${resume.uuid}&action=view">${resume.fullName}</a>
+                        <c:set var="abstractSection" value="<%=resume.getSections().get(SectionType.OBJECTIVE)%>"/>
+                        <jsp:useBean id="abstractSection" type="com.urise.webapp.model.AbstractSection"/>
+                        <p style="font-size: 12px"><b><%=((TextSection) abstractSection).getContent()%></b></p>
                     </td>
-                    <td>
+                    <td class="td-img" width="200">
                         <%=HtmlUtil.viewContactToHtml(ContactType.PHONE, resume.getContact(ContactType.PHONE))%><br>
                         <%=HtmlUtil.viewContactToHtml(ContactType.EMAIL, resume.getContact(ContactType.EMAIL))%>
                     </td>
@@ -41,6 +52,7 @@
                     </td>
                 </tr>
             </c:forEach>
+            </tbody>
         </table>
     </section>
     <jsp:include page="fragments/footer.jsp"/>

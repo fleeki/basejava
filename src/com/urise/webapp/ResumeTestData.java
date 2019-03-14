@@ -21,26 +21,26 @@ public class ResumeTestData {
         resume.addSection(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList("qualifications item_1",
                 "qualifications item_2", "qualifications item_3")));
 
-        Organization.Position javaopsPosition = new Organization.Position("10/2013", "сейчас", "some title",
+        Organization.Position javaopsPosition = new Organization.Position("10/2013", "настоящее время", "some title",
                 "javaops description");
         Organization javaops = new Organization("Java Online Projects", "http://javaops.ru/",
                 javaopsPosition);
 
-        Organization.Position wrikePosition = new Organization.Position("10/2014", "1/2016", "some title",
+        Organization.Position wrikePosition = new Organization.Position("10/2014", "01/2016", "some title",
                 "wrike description");
         Organization wrike = new Organization("Wrike", "https://www.wrike.com",
                 wrikePosition);
 
         resume.addSection(SectionType.EXPERIENCE, new OrganizationSection(Arrays.asList(javaops, wrike)));
 
-        Organization.Position courseraPosition = new Organization.Position("3/2013", "5/2013", "some title",
+        Organization.Position courseraPosition = new Organization.Position("03/2013", "05/2013", "some title",
                 null);
         Organization coursera = new Organization("Coursera", "https://www.coursera.org",
                 courseraPosition);
 
-        Organization.Position itmoPosition_1 = new Organization.Position("9/1993", "7/1996", "some title",
+        Organization.Position itmoPosition_1 = new Organization.Position("09/1993", "07/1996", "some title",
                 null);
-        Organization.Position itmoPosition_2 = new Organization.Position("9/1987", "7/1993", "some title",
+        Organization.Position itmoPosition_2 = new Organization.Position("09/1987", "07/1993", "some title",
                 null);
         Organization itmo = new Organization("Университет ИТМО", "http://www.ifmo.ru/",
                 itmoPosition_1, itmoPosition_2);
