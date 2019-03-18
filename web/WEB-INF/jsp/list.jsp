@@ -30,13 +30,17 @@
                 <jsp:useBean id="resume" type="com.urise.webapp.model.Resume"/>
                 <tr>
                     <td width="65">
-                        <img src="img/photo.png" height="64" style="border-radius: 5px" alt="photo"/>
+                        <a href="resume?uuid=${resume.uuid}&action=view" title="${resume.fullName}">
+                            <img src="img/photo.png" height="64" style="border-radius: 5px" alt="photo"/>
+                        </a>
                     </td>
                     <td width="350px">
                         <a href="resume?uuid=${resume.uuid}&action=view">${resume.fullName}</a>
-                        <c:set var="abstractSection" value="<%=resume.getSections().get(SectionType.OBJECTIVE)%>"/>
-                        <jsp:useBean id="abstractSection" type="com.urise.webapp.model.AbstractSection"/>
-                        <p style="font-size: 12px"><b><%=((TextSection) abstractSection).getContent()%></b></p>
+                        <c:set var="section" value="<%=resume.getSections().get(SectionType.OBJECTIVE)%>"/>
+                        <c:if test="${section != null}">
+                            <jsp:useBean id="section" type="com.urise.webapp.model.AbstractSection"/>
+                            <p style="font-size: 12px"><b><%=((TextSection) section).getContent()%></b></p>
+                        </c:if>
                     </td>
                     <td class="td-img" width="200">
                         <%=HtmlUtil.viewContactToHtml(ContactType.PHONE, resume.getContact(ContactType.PHONE))%><br>

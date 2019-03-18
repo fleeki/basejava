@@ -74,7 +74,7 @@
             </c:forEach>
         </div>
         <div class="button-center">
-            <button onclick="window.history.back()">Назад</button>
+            <button type="button" onclick="window.history.back()">Назад</button>
             <div class="button"><a href="resume?uuid=${resume.uuid}&action=edit">Изменить</a></div>
         </div>
     </section>

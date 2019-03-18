@@ -75,20 +75,20 @@
                                             <c:if test="${type == 'EXPERIENCE'}">
                                                 <div class="block-input">
                                                     <div>занимаемая должность:</div>
-                                                    <div><input type="text" name="${type}${number.index}title" value="<%=position.getTitle()%>"></div>
+                                                    <div><input type="text" name="${type}${number.index}title" value="${position.title}"></div>
 
                                                 </div>
                                             </c:if>
                                             <c:if test="${type == 'EDUCATION'}">
                                                 <div class="block-input">
                                                     <div>специальность:</div>
-                                                    <div><input type="text" name="${type}${number.index}title" value="<%=position.getTitle()%>"></div>
+                                                    <div><input type="text" name="${type}${number.index}title" value="${position.title}"></div>
                                                 </div>
                                             </c:if>
                                             <div>
                                                 <div style="margin-bottom: 5px">описание:</div>
                                                 <div><textarea name="${type}${number.index}description" rows="8"
-                                                               cols="75"><%=position.getDescription()%></textarea></div>
+                                                               cols="75">${position.description}</textarea></div>
                                             </div>
                                         </c:forEach>
                                     </div>
@@ -100,7 +100,7 @@
             </div>
             <div class="button-center">
                 <button type="submit">Сохранить</button>
-                <button onclick="window.history.back()">Отменить</button>
+                <button type="button" onclick="window.history.back()">Отменить</button>
             </div>
         </form>
     </section>
